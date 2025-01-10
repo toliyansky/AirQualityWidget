@@ -1,4 +1,4 @@
-const GITHUB_URL = "https://raw.githubusercontent.com/username/repo/main/script.js";
+const GITHUB_URL = "https://raw.githubusercontent.com/toliyansky/AirQualityWidget/refs/heads/main/widget.js";
 
 async function fetchAndRunScript() {
     try {
