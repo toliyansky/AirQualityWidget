@@ -102,7 +102,4 @@ function createWidget() {
     return widget;
 }
 
-// Main execution
-if (!config.runsInWidget) {
-    createWidget();
-}
+createWidget();
