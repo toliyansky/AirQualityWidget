@@ -79,6 +79,9 @@ function createWidget() {
 
     fetchAirQuality(homeStationId, function (stationData) {
         addAirQualitySection(widget, stationData, "Station: " + stationData.city.name);
+
+        widget.url = "https://aqicn.org/map/sofia/";
+
         if (config.runsInWidget) {
             Script.setWidget(widget);
             Script.complete();
@@ -90,6 +93,8 @@ function createWidget() {
         errorText.font = Font.mediumSystemFont(12);
         errorText.textColor = Color.red();
         widget.addSpacer(8);
+
+        widget.url = "https://aqicn.org/map/sofia/";
 
         if (config.runsInWidget) {
             Script.setWidget(widget);
