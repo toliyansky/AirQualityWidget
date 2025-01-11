@@ -66,27 +66,19 @@ function addAirQualitySection(widget, data, locationName) {
     widget.addSpacer(8);
 }
 
-async function openWebView() {
-    const webView = new WebView();
-    await webView.loadURL("https://aqicn.org/city/sofia/");
-    await webView.present();
-}
-
 function createWidget() {
     const homeStationId = "A232735"; // Example station ID
     const widget = new ListWidget();
     widget.backgroundColor = new Color("#1c1c1e");
 
-    const stack = widget.addStack();
-    stack.layoutHorizontally();
-    stack.spacing = 10;
+    const title = widget.addText("Air Quality");
+    title.font = Font.boldSystemFont(16);
+    title.textColor = Color.white();
 
-    const leftStack = stack.addStack();
-    leftStack.layoutVertically();
-    leftStack.size = new Size(150, 0);
+    widget.addSpacer(8);
 
     fetchAirQuality(homeStationId, function (stationData) {
-        addAirQualitySection(leftStack, stationData, "Station: " + stationData.city.name);
+        addAirQualitySection(widget, stationData, "Station: " + stationData.city.name);
         if (config.runsInWidget) {
             Script.setWidget(widget);
             Script.complete();
@@ -94,24 +86,18 @@ function createWidget() {
             widget.presentMedium();
         }
     }, function (error) {
-        const errorText = leftStack.addText("Failed to fetch station data");
+        const errorText = widget.addText("Failed to fetch station data");
         errorText.font = Font.mediumSystemFont(12);
         errorText.textColor = Color.red();
+        widget.addSpacer(8);
+
+        if (config.runsInWidget) {
+            Script.setWidget(widget);
+            Script.complete();
+        } else {
+            widget.presentMedium();
+        }
     });
-
-    const rightStack = stack.addStack();
-    rightStack.layoutVertically();
-    rightStack.size = new Size(100, 0);
-
-    const button = rightStack.addText("Open Map");
-    button.font = Font.mediumSystemFont(14);
-    button.textColor = Color.blue();
-    button.url = "https://aqicn.org/city/sofia/"; // iOS поддерживает открытие URL напрямую.
-
-    if (!config.runsInWidget) {
-        button.textColor = Color.green();
-        button.onTap = openWebView;
-    }
 
     return widget;
 }
